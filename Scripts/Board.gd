@@ -115,10 +115,6 @@ func _process(delta):
 		if Input.is_action_pressed("ui_accept"):
 			# confirm to drop player
 			drop_confirm = true
-#			while check_movable(0, 1):
-#				move_player(0, 1)
-#			nail_player()
-#			new_player()
 			can_move = false
 	
 		if Input.is_action_pressed("ui_right"):
