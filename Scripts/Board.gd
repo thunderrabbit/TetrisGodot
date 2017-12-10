@@ -4,7 +4,7 @@ extends Node2D
 export var board_width = 10
 export var board_height = 18
 
-export var count_down = 1.5		# count down for automatically decenting player
+export var count_down = 1.5		# count down for gravity
 var counter 			# counter for count_down
 
 var gameover			# is the game over?
