@@ -10,3 +10,6 @@ func _ready():
 	print("hey I am _ready")
 	pass
 
+func triggerized():
+	print("hey I was triggerized")
+	pass

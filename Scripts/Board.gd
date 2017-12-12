@@ -217,6 +217,10 @@ func new_player():
 		var sprite = block_sprite.instance()
 		# set the color
 		sprite.set_modulate(color)
+
+		# test talking to the sprite's script
+		sprite.triggerized()
+
 		# keep it in player_sprites so we can find them later
 		player_sprites.append(sprite)
 		# add it to scene
