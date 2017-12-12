@@ -180,11 +180,8 @@ func set_gameover_sprites():
 
 # get a random block from blockset
 func new_block():
-	var b = []
-	var block_index = randi() % blockset.size()
-	for i in blockset[block_index]:
-		b.append(i)
-	return b
+    # See if it works to just have a single piece in the 4x4 block
+    return [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 # get a random color from colorset
 func random_color():
