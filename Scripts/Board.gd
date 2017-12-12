@@ -294,12 +294,13 @@ func nail_player():
 		board[Vector2(block.x, block.y)] = player_sprites[index]
 		player_sprites[index].set_pos(Vector2(block.x*width, block.y*width))
 		index+=1
-		
-	check_bingo()
+
+	# Turn this off because we only care about swipes, not Tetris
+	# detect_horizontal_fill()
 
 
-# check bingo
-func check_bingo():
+# Tetris style detection of horizontal filled line
+func detect_horizontal_fill():
 	var bingo_y = []
 	# if the line is bingo, clear the line
 	for block in get_player_block_positions():
@@ -322,7 +323,7 @@ func check_bingo():
 		move_gap(bingo_y)
 	
 	
-# move down the blocks above empty lines that was remove by check_bingo
+# move down the blocks above empty lines that was remove by detect_horizontal_fill
 func move_gap(gap_lines):
 	gap_lines.sort()
 	gap_lines.invert()
