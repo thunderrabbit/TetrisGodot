@@ -78,7 +78,7 @@ var blockset = [
 func _ready():
 	# show input info
 	var input_info = get_node("../Control/InputInfo")
-	input_info.add_text("W: Rotate\nA: Left\nD: Right\nS: Down\n\nSpace: Confirm/Restart")
+	input_info.add_text("A: Left\nD: Right\nS: Down\n\nSpace: Confirm/Restart")
 
 	# randomize seed
 	randomize()
@@ -128,9 +128,6 @@ func _process(delta):
 				can_move = false
 			
 		if Input.is_action_pressed("ui_up"):
-			# rotate player
-			if check_rotatable():
-				rotate_player()
 				can_move = false
 		
 		if Input.is_action_pressed("ui_down"):
@@ -186,17 +183,6 @@ func new_block():
 # get a random color from colorset
 func random_color():
 	return colorset[randi() % colorset.size()]
-	
-
-# rotate block by counter-clockwise
-func rotate_block(block):
-	var b = Array()
-	for i in [3, 2, 1, 0]:
-		b.append(block[i])
-		b.append(block[i+4])
-		b.append(block[i+8])
-		b.append(block[i+12])
-	return b
 
 
 # update player sprite display
@@ -251,13 +237,6 @@ func game_over():
 	set_gameover_sprites()
 
 
-# roate player
-func rotate_player():
-	current_block = rotate_block(current_block)
-	# update sprite positions
-	update_player_sprites(player_sprites)
-
-
 # get player block poision by x,y index
 func get_player_block_positions():
 	var positions = []
@@ -306,21 +285,6 @@ func check_ground():
 		if board[Vector2(block.x, block.y+1)] != null:
 			return true
 	return false
-
-
-# check rotatable
-func check_rotatable():
-	var next = rotate_block(current_block)
-	for i in range(4):
-		for j in range(4):
-			if next[i+j*4] == 1:
-				var board_x = player.x + i
-				var board_y = player.y + j
-				if board_x < 0 or board_x >= board_width or board_y >= board_height:
-					return false
-				if board[Vector2(board_x, board_y)] != null:
-					return false
-	return true
 	
 
 # nail player to board
