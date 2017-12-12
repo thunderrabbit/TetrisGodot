@@ -11,7 +11,7 @@ var gameover			# is the game over?
 
 var current_block		# current block
 
-const width = 30		# the width of each block sprite (tile)
+const width = 30		# matches block.png actual size
 var board = {}			# board of board_width x board_height
 
 var player = Vector2()	# player position in x,y index
@@ -208,7 +208,7 @@ func update_player_sprites(sprites):
 	for i in range(4):
 		for j in range(4):
 			if current_block[i+j*4] == 1:
-				sprites[index].set_pos(Vector2(i*30 + player.x*30, j*30 + player.y*30))
+				sprites[index].set_pos(Vector2(i*width + player.x*width, j*width + player.y*width))
 				index += 1
 
 
@@ -315,7 +315,7 @@ func nail_player():
 	var index = 0
 	for block in get_player_block_positions():
 		board[Vector2(block.x, block.y)] = player_sprites[index]
-		player_sprites[index].set_pos(Vector2(block.x*30, block.y*30))
+		player_sprites[index].set_pos(Vector2(block.x*width, block.y*width))
 		index+=1
 		
 	check_bingo()
