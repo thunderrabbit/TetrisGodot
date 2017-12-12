@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://Images/block.png" type="Texture" id=1]
+[ext_resource path="res://SubScenes/clickablock.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[node name="Area2D" type="Area2D"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1.47655, 0, 0, 1.46234, 0.0271116, -0.260365 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Sprite" type="Sprite" parent="."]
+
+texture = ExtResource( 1 )
+flip_h = true
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+transform/pos = Vector2( 0.0271116, -0.260365 )
+transform/scale = Vector2( 1.47655, 1.46234 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+script/script = ExtResource( 2 )
+
+
