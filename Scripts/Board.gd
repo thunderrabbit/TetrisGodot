@@ -212,7 +212,7 @@ func update_player_sprites(sprites):
 				index += 1
 
 
-# generate a now player
+# generate a new player
 func new_player():
 	var color = random_color()
 	current_block = new_block()
