@@ -5,6 +5,9 @@ export var board_width = 10
 export var board_height = 18
 
 export var count_down = 1.5		# count down for gravity
+
+var num_types = 4       # dog, cat, pig, sheep
+
 var counter 			# counter for count_down
 
 var gameover			# is the game over?
@@ -22,12 +25,7 @@ var drop_confirm = false		# if the space bar is pressed for confirming to drop t
 
 var block_sprite = preload("res://SubScenes/block.xml")
 
-var colorset = [
-	Color(0.962593, 0.499035, 0.517964), 
-	Color(0.962593, 0.95568, 0.517964), 
-	Color(0.484998, 0.95568, 0.517964), 
-	Color(0.484998, 0.480191, 0.932654)
-]
+
 
 # These are no longer used, but I cam keeping the concept
 # because it might help with swipe calculation.
@@ -182,9 +180,9 @@ func new_block():
     # This used to be a 4x4 array, but now our piece is a single piece
     return [1]
 
-# get a random color from colorset
-func random_color():
-	return colorset[randi() % colorset.size()]
+# get a random number to choose the type
+func random_type():
+	return randi() % num_types
 
 
 # update player sprite display
@@ -200,7 +198,7 @@ func update_player_sprites(sprites):
 # generate a new player
 func new_player():
 	# new player will be a random of four colors
-	var color = random_color()
+	var new_player_type_ordinal = random_type()
 
 	# new player will be random of four shapes
 	current_block = new_block()
@@ -215,11 +213,9 @@ func new_player():
 	for i in range(1):
 		# instantiate a block
 		var sprite = block_sprite.instance()
-		# set the color
-		sprite.set_modulate(color)
 
 		# test talking to the sprite's script
-		sprite.set_type("dog")
+		sprite.set_type_ordinal(new_player_type_ordinal)
 
 		# keep it in player_sprites so we can find them later
 		player_sprites.append(sprite)
