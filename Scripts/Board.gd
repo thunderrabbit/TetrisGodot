@@ -214,16 +214,32 @@ func update_player_sprites(sprites):
 
 # generate a new player
 func new_player():
+	# new player will be a random of four colors
 	var color = random_color()
+
+	# new player will be random of four shapes
 	current_block = new_block()
+
+	# select top center position
 	player = Vector2(board_width/2-2, 0)
+
+	# player_sprites will hold 4 blocks which represent our player
 	player_sprites = []
+
+	# instantiate four blocks for our player.  i is unused here
 	for i in range(4):
+		# instantiate a block
 		var sprite = block_sprite.instance()
+		# set the color
 		sprite.set_modulate(color)
+		# keep it in player_sprites so we can find them later
 		player_sprites.append(sprite)
+		# add it to scene
 		add_child(sprite)
+
+	# now arrange the blocks making up this player in the right shape
 	update_player_sprites(player_sprites)
+
 	# check game over
 	for block in get_player_block_positions():
 		if board[Vector2(block.x, block.y)] != null:
