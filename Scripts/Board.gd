@@ -177,8 +177,8 @@ func set_gameover_sprites():
 
 # get a random block from blockset
 func new_block():
-    # See if it works to just have a single piece in the 4x4 block
-    return [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    # This used to be a 4x4 array, but now our piece is a single piece
+    return [1]
 
 # get a random color from colorset
 func random_color():
@@ -240,8 +240,8 @@ func game_over():
 # get player block poision by x,y index
 func get_player_block_positions():
 	var positions = []
-	for i in range(4):
-		for j in range(4):
+	for i in range(1):
+		for j in range(1):
 			if current_block[i+j*4] == 1:
 				positions.append(Vector2(player.x+i, player.y+j))
 	return positions
