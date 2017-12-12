@@ -29,6 +29,8 @@ var colorset = [
 	Color(0.484998, 0.480191, 0.932654)
 ]
 
+# These are no longer used, but I cam keeping the concept
+# because it might help with swipe calculation.
 var blockset = [
 	# square
 	[0, 0, 0, 0,
