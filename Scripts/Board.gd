@@ -23,7 +23,7 @@ var player_sprites		# player's block sprite (there are four of them)
 var can_move = false	# if the player can move or not
 var drop_confirm = false		# if the space bar is pressed for confirming to drop the player directly
 
-var block_sprite = preload("res://SubScenes/block.xml")
+var block_sprite = preload("res://SubScenes/clickablock.tscn")
 
 
 
