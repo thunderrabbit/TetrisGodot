@@ -5,6 +5,9 @@ export var board_width = 10
 export var board_height = 18
 
 export var count_down = 1.5		# count down for gravity
+
+var num_types = 4       # dog, cat, pig, sheep
+
 var counter 			# counter for count_down
 
 var gameover			# is the game over?
@@ -22,13 +25,10 @@ var drop_confirm = false		# if the space bar is pressed for confirming to drop t
 
 var block_sprite = preload("res://SubScenes/block.xml")
 
-var colorset = [
-	Color(0.962593, 0.499035, 0.517964), 
-	Color(0.962593, 0.95568, 0.517964), 
-	Color(0.484998, 0.95568, 0.517964), 
-	Color(0.484998, 0.480191, 0.932654)
-]
 
+
+# These are no longer used, but I cam keeping the concept
+# because it might help with swipe calculation.
 var blockset = [
 	# square
 	[0, 0, 0, 0,
@@ -78,7 +78,7 @@ var blockset = [
 func _ready():
 	# show input info
 	var input_info = get_node("../Control/InputInfo")
-	input_info.add_text("W: Rotate\nA: Left\nD: Right\nS: Down\n\nSpace: Confirm/Restart")
+	input_info.add_text("A: Left\nD: Right\nS: Down\n\nSpace: Confirm/Restart")
 
 	# randomize seed
 	randomize()
@@ -128,9 +128,6 @@ func _process(delta):
 				can_move = false
 			
 		if Input.is_action_pressed("ui_up"):
-			# rotate player
-			if check_rotatable():
-				rotate_player()
 				can_move = false
 		
 		if Input.is_action_pressed("ui_down"):
@@ -180,33 +177,19 @@ func set_gameover_sprites():
 
 # get a random block from blockset
 func new_block():
-	var b = []
-	var block_index = randi() % blockset.size()
-	for i in blockset[block_index]:
-		b.append(i)
-	return b
+    # This used to be a 4x4 array, but now our piece is a single piece
+    return [1]
 
-# get a random color from colorset
-func random_color():
-	return colorset[randi() % colorset.size()]
-	
-
-# rotate block by counter-clockwise
-func rotate_block(block):
-	var b = Array()
-	for i in [3, 2, 1, 0]:
-		b.append(block[i])
-		b.append(block[i+4])
-		b.append(block[i+8])
-		b.append(block[i+12])
-	return b
+# get a random number to choose the type
+func random_type():
+	return randi() % num_types
 
 
 # update player sprite display
 func update_player_sprites(sprites):
 	var index = 0
-	for i in range(4):
-		for j in range(4):
+	for i in range(1):
+		for j in range(1):
 			if current_block[i+j*4] == 1:
 				sprites[index].set_pos(Vector2(i*width + player.x*width, j*width + player.y*width))
 				index += 1
@@ -215,23 +198,25 @@ func update_player_sprites(sprites):
 # generate a new player
 func new_player():
 	# new player will be a random of four colors
-	var color = random_color()
+	var new_player_type_ordinal = random_type()
 
 	# new player will be random of four shapes
 	current_block = new_block()
 
 	# select top center position
-	player = Vector2(board_width/2-2, 0)
+	player = Vector2(board_width/2, 0)
 
-	# player_sprites will hold 4 blocks which represent our player
+	# player_sprites will hold 1 blocks which represent our player
 	player_sprites = []
 
 	# instantiate four blocks for our player.  i is unused here
-	for i in range(4):
+	for i in range(1):
 		# instantiate a block
 		var sprite = block_sprite.instance()
-		# set the color
-		sprite.set_modulate(color)
+
+		# test talking to the sprite's script
+		sprite.set_type_ordinal(new_player_type_ordinal)
+
 		# keep it in player_sprites so we can find them later
 		player_sprites.append(sprite)
 		# add it to scene
@@ -254,18 +239,11 @@ func game_over():
 	set_gameover_sprites()
 
 
-# roate player
-func rotate_player():
-	current_block = rotate_block(current_block)
-	# update sprite positions
-	update_player_sprites(player_sprites)
-
-
 # get player block poision by x,y index
 func get_player_block_positions():
 	var positions = []
-	for i in range(4):
-		for j in range(4):
+	for i in range(1):
+		for j in range(1):
 			if current_block[i+j*4] == 1:
 				positions.append(Vector2(player.x+i, player.y+j))
 	return positions
@@ -309,21 +287,6 @@ func check_ground():
 		if board[Vector2(block.x, block.y+1)] != null:
 			return true
 	return false
-
-
-# check rotatable
-func check_rotatable():
-	var next = rotate_block(current_block)
-	for i in range(4):
-		for j in range(4):
-			if next[i+j*4] == 1:
-				var board_x = player.x + i
-				var board_y = player.y + j
-				if board_x < 0 or board_x >= board_width or board_y >= board_height:
-					return false
-				if board[Vector2(board_x, board_y)] != null:
-					return false
-	return true
 	
 
 # nail player to board
@@ -333,12 +296,13 @@ func nail_player():
 		board[Vector2(block.x, block.y)] = player_sprites[index]
 		player_sprites[index].set_pos(Vector2(block.x*width, block.y*width))
 		index+=1
-		
-	check_bingo()
+
+	# Turn this off because we only care about swipes, not Tetris
+	# detect_horizontal_fill()
 
 
-# check bingo
-func check_bingo():
+# Tetris style detection of horizontal filled line
+func detect_horizontal_fill():
 	var bingo_y = []
 	# if the line is bingo, clear the line
 	for block in get_player_block_positions():
@@ -361,7 +325,7 @@ func check_bingo():
 		move_gap(bingo_y)
 	
 	
-# move down the blocks above empty lines that was remove by check_bingo
+# move down the blocks above empty lines that was remove by detect_horizontal_fill
 func move_gap(gap_lines):
 	gap_lines.sort()
 	gap_lines.invert()
