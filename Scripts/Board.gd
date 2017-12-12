@@ -204,7 +204,7 @@ func new_player():
 	current_block = new_block()
 
 	# select top center position
-	player = Vector2(board_width/2-2, 0)
+	player = Vector2(board_width/2, 0)
 
 	# player_sprites will hold 1 blocks which represent our player
 	player_sprites = []
