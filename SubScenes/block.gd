@@ -1,8 +1,7 @@
 extends Sprite
 
 # class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+var sprite_type
 
 func _ready():
 	# Called every time the node is added to the scene.
