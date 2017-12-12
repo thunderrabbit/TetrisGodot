@@ -219,7 +219,7 @@ func new_player():
 		sprite.set_modulate(color)
 
 		# test talking to the sprite's script
-		sprite.triggerized()
+		sprite.set_type("dog")
 
 		# keep it in player_sprites so we can find them later
 		player_sprites.append(sprite)
