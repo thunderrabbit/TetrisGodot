@@ -202,8 +202,8 @@ func rotate_block(block):
 # update player sprite display
 func update_player_sprites(sprites):
 	var index = 0
-	for i in range(4):
-		for j in range(4):
+	for i in range(1):
+		for j in range(1):
 			if current_block[i+j*4] == 1:
 				sprites[index].set_pos(Vector2(i*width + player.x*width, j*width + player.y*width))
 				index += 1
@@ -220,11 +220,11 @@ func new_player():
 	# select top center position
 	player = Vector2(board_width/2-2, 0)
 
-	# player_sprites will hold 4 blocks which represent our player
+	# player_sprites will hold 1 blocks which represent our player
 	player_sprites = []
 
 	# instantiate four blocks for our player.  i is unused here
-	for i in range(4):
+	for i in range(1):
 		# instantiate a block
 		var sprite = block_sprite.instance()
 		# set the color
