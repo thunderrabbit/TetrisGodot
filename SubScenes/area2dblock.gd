@@ -20,3 +20,13 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	pass
+
+
+func _on_Control_mouse_enter():
+	print("on Control enter", sprite_type)
+	pass # replace with function body
+
+
+func _on_Control_mouse_exit():
+	print("on Control exit", sprite_type)
+	pass # replace with function body
